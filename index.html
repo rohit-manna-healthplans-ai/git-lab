@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Git lab</title>
+  <style>
+    :root {
+      --bg-1: #0d1117;
+      --bg-2: #161b22;
+      --glass: rgba(255, 255, 255, 0.07);
+      --edge: rgba(255, 255, 255, 0.18);
+      --text: #e6edf3;
+      --muted: #8d96a0;
+      --green: #3fb950;
+      --blue: #58a6ff;
+      --purple: #bc8cff;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { height: 100%; margin: 0; }
+
+    body {
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(60vmax 60vmax at 15% 20%, rgba(88, 166, 255, 0.35), transparent 60%),
+        radial-gradient(50vmax 50vmax at 85% 80%, rgba(188, 140, 255, 0.35), transparent 60%),
+        radial-gradient(40vmax 40vmax at 60% 10%, rgba(63, 185, 80, 0.25), transparent 60%),
+        linear-gradient(160deg, var(--bg-1), var(--bg-2));
+      overflow: hidden;
+    }
+
+    .scene { perspective: 1200px; }
+
+    .card {
+      position: relative;
+      width: min(420px, 100%);
+      padding: 32px;
+      border-radius: 24px;
+      background: var(--glass);
+      border: 1px solid var(--edge);
+      box-shadow:
+        0 30px 60px rgba(0, 0, 0, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(18px) saturate(140%);
+      -webkit-backdrop-filter: blur(18px) saturate(140%);
+      transform-style: preserve-3d;
+      transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+      transition: transform 0.15s ease-out;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.18), transparent 45%);
+      pointer-events: none;
+    }
+
+    .avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 28px;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      box-shadow: 0 10px 30px rgba(88, 166, 255, 0.35);
+      transform: translateZ(40px);
+    }
+
+    h1 {
+      margin: 20px 0 4px;
+      font-size: 28px;
+      letter-spacing: -0.02em;
+      transform: translateZ(30px);
+    }
+
+    .tag {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      transform: translateZ(20px);
+    }
+
+    .tag a { color: var(--blue); text-decoration: none; }
+    .tag a:hover { text-decoration: underline; }
+
+    h2 {
+      margin: 28px 0 12px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+    }
+
+    .projects {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 10px;
+    }
+
+    .projects li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transform: translateZ(15px);
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex: none;
+    }
+
+    .dot.green { background: var(--green); box-shadow: 0 0 12px var(--green); }
+    .dot.blue { background: var(--blue); box-shadow: 0 0 12px var(--blue); }
+    .dot.purple { background: var(--purple); box-shadow: 0 0 12px var(--purple); }
+
+    .projects strong { display: block; font-size: 15px; }
+    .projects span { font-size: 13px; color: var(--muted); }
+
+    footer {
+      margin-top: 24px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .card { transition: none; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="scene">
+    <article class="card" id="card">
+      <div class="avatar" id="avatar">?</div>
+
+      <!-- Change the two lines below. Keep everything else. -->
+      <h1 id="name">YOUR NAME</h1>
+      <p class="tag">Learning Git · <a id="github" href="https://github.com/YOUR-USERNAME">@YOUR-USERNAME</a></p>
+
+      <h2>Projects</h2>
+      <ul class="projects">
+        <li><i class="dot green"></i><div><strong>First repository</strong><span>Commits, history, and .gitignore</span></div></li>
+        <li><i class="dot blue"></i><div><strong>Branches and pull requests</strong><span>Feature branches merged with a review</span></div></li>
+        <li><i class="dot purple"></i><div><strong>Capstone</strong><span>A small project with a release and a live site</span></div></li>
+      </ul>
+
+      <footer>Built while learning Git. A course by Rohit Manna.</footer>
+    </article>
+  </div>
+
+  <script>
+    // The first letter of the name becomes the avatar.
+    var name = document.getElementById('name').textContent.trim();
+    document.getElementById('avatar').textContent = name ? name[0].toUpperCase() : '?';
+    document.title = name && name !== 'YOUR NAME' ? name + ' · Git lab' : 'My Git lab';
+
+    // Tilt the card toward the pointer.
+    var card = document.getElementById('card');
+    var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!still) {
+      card.addEventListener('mousemove', function (event) {
+        var box = card.getBoundingClientRect();
+        var x = (event.clientX - box.left) / box.width - 0.5;
+        var y = (event.clientY - box.top) / box.height - 0.5;
+        card.style.setProperty('--ry', (x * 16) + 'deg');
+        card.style.setProperty('--rx', (-y * 16) + 'deg');
+      });
+      card.addEventListener('mouseleave', function () {
+        card.style.setProperty('--ry', '0deg');
+        card.style.setProperty('--rx', '0deg');
+      });
+    }
+  </script>
+</body>
+</html>
